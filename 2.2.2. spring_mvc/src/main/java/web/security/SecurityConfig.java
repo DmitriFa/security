@@ -21,8 +21,8 @@ import web.model.Role;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
   //  private final UserDetailsService userDetailsService; // сервис, с помощью которого тащим пользователя
-    @Autowired
-    private SuccessUserHandler successUserHandler; // класс, в котором описана логика перенаправления пользователей по ролям
+  //  @Autowired
+  //  private SuccessUserHandler successUserHandler; // класс, в котором описана логика перенаправления пользователей по ролям
 
    /* @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -52,9 +52,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                .antMatchers(HttpMethod.DELETE, "/**").hasRole(Role.ADMIN.name())
                .anyRequest()
                .authenticated()
-               .and().formLogin()
-               .successHandler(successUserHandler); // подключаем наш SuccessHandler для перенеправления по ролям
-               // .httpBasic();
+               .and()
+              // .successHandler(successUserHandler); // подключаем наш SuccessHandler для перенеправления по ролям
+               .httpBasic();
 
 
    }
