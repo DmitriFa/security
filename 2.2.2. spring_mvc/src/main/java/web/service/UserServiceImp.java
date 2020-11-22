@@ -1,6 +1,9 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
@@ -49,4 +52,17 @@ public class UserServiceImp implements UserService {
     public boolean checkLastName(String lastName) throws Exception {
         return userDao.checkLastName(lastName);
     }
+
+  /*  @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String lastName) throws UsernameNotFoundException {
+        User user = null;
+        try {
+            user = userDao.getUserByName(lastName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+            return user;
+    }*/
 }

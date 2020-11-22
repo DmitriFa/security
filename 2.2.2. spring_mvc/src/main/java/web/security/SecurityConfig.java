@@ -3,6 +3,7 @@ package web.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,9 +20,15 @@ import web.model.Role;
 
 @Configuration
 @EnableWebSecurity
+//@ComponentScan(value = "web")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
   //  private final UserDetailsService userDetailsService; // сервис, с помощью которого тащим пользователя
   //  private  SuccessUserHandler successUserHandler; // класс, в котором описана логика перенаправления пользователей по ролям
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        super.configure(auth);
+    }
 
    /* @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -39,6 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static NoOpPasswordEncoder passwordEncoder() {
         return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }*/
+
+
    @Bean
    @Override
    protected UserDetailsService userDetailsService() {
@@ -77,13 +86,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                .antMatchers(HttpMethod.GET, "/").hasRole(Role.ADMIN.name())
                .antMatchers(HttpMethod.GET, "/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
                .antMatchers(HttpMethod.POST, "/**").hasRole(Role.ADMIN.name())
-               //.antMatchers(HttpMethod.POST, "/add/**").hasRole(Role.ADMIN.name())
-               .antMatchers(HttpMethod.DELETE, "/").hasRole(Role.ADMIN.name())
+              // .antMatchers(HttpMethod.POST, "/add/**").hasRole(Role.ADMIN.name())
+               .antMatchers(HttpMethod.DELETE, "/**").hasRole(Role.ADMIN.name())
                .anyRequest()
                .authenticated()
-               .and()
+               .and().formLogin();
               // .successHandler(successUserHandler); // подключаем наш SuccessHandler для перенеправления по ролям
-               .httpBasic();
+             //  .httpBasic();
 
 
    }

@@ -57,6 +57,12 @@ public class UserDaoImp implements UserDao {
    }
     @Override
     @Transactional
+    public User getUserByName(String lastName){
+        return (User) em.find(User.class, lastName);
+    }
+
+    @Override
+    @Transactional
     public boolean checkLastName(String lastName) {
       //  Session session = em.unwrap(Session.class);
       //  Query query;

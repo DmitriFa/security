@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <!--    <meta charset="UTF-8">-->
     <meta charset="UTF-8" language="java" >
@@ -21,13 +21,14 @@
             <td th:text="${user.getLastName()}"></td>
             <td th:text="${user.getName()}"></td>
             <td th:text="${user.getAge()}"></td>
-            <td><a th:href="@{/edit/{id}(id=${user.getId()})}">edit</a></td>
+            <td ><div class="user" sec:authorize="hasRole('ADMIN')"><a th:href="@{/edit/{id}(id=${user.getId()})}">edit</a></div></td>
             <td><a th:href="@{/delete/{id}(id=${user.getId()})}">delete</a></td>
         </tr>
         <tr>
             <td colspan="6">
                 <a href="/add"/>Add new user</a></td>
         </tr>
+
     </table>
 
 </div>
