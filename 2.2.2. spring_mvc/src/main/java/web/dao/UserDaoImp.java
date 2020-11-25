@@ -2,12 +2,16 @@ package web.dao;
 
 import org.hibernate.HibernateException;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import web.model.Role;
 import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -15,6 +19,9 @@ public class UserDaoImp implements UserDao {
 
     @PersistenceContext
     EntityManager em;
+
+  //  @Autowired
+   // BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserDaoImp() {
     }
@@ -24,6 +31,8 @@ public class UserDaoImp implements UserDao {
     public void addUser(User user) throws HibernateException {
      //  Session session = em.unwrap(Session.class);
      //  session.save(user);
+        //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
         em.persist(user);
     }
 

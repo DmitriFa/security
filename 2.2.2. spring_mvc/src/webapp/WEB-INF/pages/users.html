@@ -19,6 +19,7 @@
         <tr th:each="user : ${messages}">
             <td th:text="${user.getId()}"></td>
             <td th:text="${user.getLastName()}"></td>
+            <td th:text="${user.getPassword()}"></td>
             <td th:text="${user.getName()}"></td>
             <td th:text="${user.getAge()}"></td>
             <td ><div class="user" sec:authorize="hasRole('ADMIN')"><a th:href="@{/edit/{id}(id=${user.getId()})}">edit</a></div></td>

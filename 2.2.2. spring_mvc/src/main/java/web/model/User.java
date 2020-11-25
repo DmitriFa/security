@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -22,23 +23,29 @@ public class User implements UserDetails {
     @Column(name = "age")
     private Byte age;
 
-    public User() {
+    @Column(name = "password")
+    private String password;
 
-    }
+    @JoinTable
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
-    public User(String name, String lastName, Byte age) {
+    public User(String name,String lastName,Byte age,String password,Set<Role>roles) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
+        this.password = password;
+        this.roles =roles;
+    }
+
+    public User() {
     }
 
     public Long getId() {
-
         return id;
     }
 
     public void setId(Long id) {
-
         this.id = id;
     }
 
@@ -66,43 +73,54 @@ public class User implements UserDetails {
         this.age = age;
     }
     @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String encode) {
+        this.password = password;
+    }
+    @Override
     public String toString(){
         return getId()+ getName()+ getLastName()+ getAge();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
+        return roles;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return getLastName();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
 }
 

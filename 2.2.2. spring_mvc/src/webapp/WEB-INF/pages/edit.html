@@ -12,8 +12,10 @@
         <p>Edit user</p>
        <tr th:each="user : ${messages}">
             <input type="hidden" name="id" th:value="${user.getId()}"/>
-            <label for="lastName">LastName</label>
-            <input name="lastName"type="text"th:value="${user.getLastName()}"id="lastName" required/>
+           <label for="lastName">LastName</label>
+           <input name="lastName"type="text"th:value="${user.getLastName()}"id="lastName" required/>
+           <label for="password">Password</label>
+           <input name="password"type="password"th:value="${user.getPassword()}"id="password" required/>
             <label for="name">Name</label>
             <input name="name" type="text" th:value="${user.getName()}"id="name" required/>
             <label for="age">Age</label>
