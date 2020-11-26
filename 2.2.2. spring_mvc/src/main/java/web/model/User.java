@@ -26,7 +26,15 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @JoinTable
+    @JoinTable(
+            name="users_roles"
+            , joinColumns={
+            @JoinColumn(name="users_id")
+    }
+            , inverseJoinColumns={
+            @JoinColumn(name="roles_id")
+    }
+    )
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 

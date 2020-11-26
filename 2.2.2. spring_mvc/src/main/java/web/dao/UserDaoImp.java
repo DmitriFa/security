@@ -32,7 +32,7 @@ public class UserDaoImp implements UserDao {
      //  Session session = em.unwrap(Session.class);
      //  session.save(user);
         //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
+      //  user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
         em.persist(user);
     }
 

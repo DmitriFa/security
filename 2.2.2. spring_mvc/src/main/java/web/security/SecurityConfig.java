@@ -11,23 +11,34 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import web.dao.UserDao;
 import web.model.Role;
 
 @Configuration
 @EnableWebSecurity
-//@ComponentScan(value = "web")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    //private final UserDetailsService userDetailsService; // сервис, с помощью которого тащим пользователя
-  //  private  SuccessUserHandler successUserHandler; // класс, в котором описана логика перенаправления пользователей по ролям
+
+    private UserDetailsService userDetailsService; // сервис, с помощью которого тащим пользователя
+    private  SuccessUserHandler successUserHandler; // класс, в котором описана логика перенаправления пользователей по ролям
+
+      @Autowired
+      public void setUserDetailsService(UserDetailsService userDetailsService) {
+          this.userDetailsService = userDetailsService;
+      }
+  // @Override
+  //  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+  //      super.configure(auth);
+  //  }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance()); // конфигурация для прохождения аутентификации
     }
 
    @Override
@@ -47,67 +58,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                // .successHandler(successUserHandler); // подключаем наш SuccessHandler для перенеправления по ролям
     }
 
-    // Необходимо для шифрования паролей
-    // В данном примере не используется, отключен
-  //  @Bean
-   // public static NoOpPasswordEncoder passwordEncoder() {
-   //    return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
-   // }
-
-
-/*   @Bean
-   @Override
-   protected UserDetailsService userDetailsService() {
-       return new InMemoryUserDetailsManager(
-               User.builder().username("admin")
-                       // Use without encode first
-                       .password(passwordEncoder().encode("admin"))
-                       .roles(Role.ADMIN.name())
-                       .build(),
-               User.builder().username("user")
-                       // Use without encode first
-                       .password(passwordEncoder().encode("user"))
-                       .roles(Role.USER.name())
-                       .build()
-       );
-       // Go to UserDetailsServiceImpl - InMemory
-   }*/
-
- /* public SecurityConfig(@Qualifier("UserServiceImp")UserDetailsService userDetailsService, SuccessUserHandler successUserHandler) {
-       this.userDetailsService = userDetailsService;
-       //this.successUserHandler = successUserHandler;
-   }
-
-    @Autowired
-    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()); // конфигурация для прохождения аутентификации
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
 
 
- /*  @Override
-   protected void configure(HttpSecurity http) throws Exception {
 
-               http.csrf().disable()
-               .authorizeRequests()
-            //   .antMatchers("/").permitAll()
-                        .antMatchers(HttpMethod.GET, "/").hasRole(Role.ADMIN.name())
-                           .antMatchers(HttpMethod.GET, "/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
-                           .antMatchers(HttpMethod.POST, "/**").hasRole(Role.ADMIN.name())
-                          // .antMatchers(HttpMethod.POST, "/add/**").hasRole(Role.ADMIN.name())
-                           .antMatchers(HttpMethod.DELETE, "/**").hasRole(Role.ADMIN.name())
-               .anyRequest()
-               .authenticated()
-               .and().formLogin();
-              // .successHandler(successUserHandler); // подключаем наш SuccessHandler для перенеправления по ролям
-             //  .httpBasic();
-
-
+  /*public SecurityConfig(@Qualifier("UserDetailsServiceImp")UserDetailsService userDetailsService) {
+       this.userDetailsService = userDetailsService;
+       this.successUserHandler = successUserHandler;
    }*/
 
 
-
-    @Bean
+  /*  @Bean
     protected PasswordEncoder passwordEncoder() {
        return new BCryptPasswordEncoder(12);
-    }
+   }*/
 }
