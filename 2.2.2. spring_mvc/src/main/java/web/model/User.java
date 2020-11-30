@@ -85,12 +85,12 @@ public class User implements UserDetails {
         return password;
     }
 
-    public void setPassword(String encode) {
+    public void setPassword(String password) {
         this.password = password;
     }
     @Override
     public String toString(){
-        return getId()+ getName()+ getLastName()+ getAge();
+        return getId()+ getName()+ getLastName()+ getAge()+ getPassword();
     }
 
     @Override

@@ -3,7 +3,11 @@ package web.dao;
 import org.hibernate.HibernateException;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.codec.AbstractSingleValueEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import web.model.Role;
@@ -13,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class UserDaoImp implements UserDao {
@@ -20,8 +25,9 @@ public class UserDaoImp implements UserDao {
     @PersistenceContext
     EntityManager em;
 
-  //  @Autowired
-   // BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    public static NoOpPasswordEncoder passwordEncoder;
+
 
     public UserDaoImp() {
     }
@@ -29,10 +35,8 @@ public class UserDaoImp implements UserDao {
     @Override
     @Transactional
     public void addUser(User user) throws HibernateException {
-     //  Session session = em.unwrap(Session.class);
-     //  session.save(user);
-        //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-      //  user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
+      // user.setPassword(passwordEncoder.encode(user.getPassword()));
+       user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
         em.persist(user);
     }
 
@@ -46,9 +50,9 @@ public class UserDaoImp implements UserDao {
     @Override
     @Transactional
     public   void updateUser(User user){
-      //  Session session = em.unwrap(Session.class);
-       // session.update(user);
+        user.setRoles(user.getRoles());
         em.merge(user);
+
     }
 
     @Override
@@ -67,7 +71,14 @@ public class UserDaoImp implements UserDao {
     @Override
     @Transactional
     public User getUserByName(String lastName){
-        return (User) em.find(User.class, lastName);
+       // return (User) em.find(User.class, lastName);
+        List<User> users = getAllUsers();
+        for (int i = 0; i < users.size(); i++) {
+           if(users.get(i).getLastName().equals(lastName)){
+               return users.get(i);
+           }
+        }
+     return  null;
     }
 
     @Override

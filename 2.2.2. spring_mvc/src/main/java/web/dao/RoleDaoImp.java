@@ -1,11 +1,14 @@
 package web.dao;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import web.model.Role;
+import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class RoleDaoImp implements RoleDao {
@@ -34,5 +37,10 @@ public class RoleDaoImp implements RoleDao {
     @Override
     public Role getRoleById(Long id) throws Exception {
          return (Role) em.find(Role.class, id);
+    }
+    @Override
+    public   void updateRole(Role role){
+        em.merge(role);
+
     }
 }

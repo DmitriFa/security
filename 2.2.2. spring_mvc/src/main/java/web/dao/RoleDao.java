@@ -11,6 +11,8 @@ public interface RoleDao {
 
     void removeRole(Role role) throws Exception;
 
+    void updateRole(Role role) throws  Exception;
+
     List<Role> getAllRoles() throws Exception;
 
     Role getRoleById(Long id) throws  Exception;

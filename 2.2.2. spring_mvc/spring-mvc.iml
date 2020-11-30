@@ -80,5 +80,6 @@
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:5.2.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-taglibs:5.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-acl:5.4.1" level="project" />
+    <orderEntry type="library" name="Maven: c3p0:c3p0:0.9.1.2" level="project" />
   </component>
 </module>
