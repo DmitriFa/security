@@ -47,8 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          http.csrf().disable();
         http.authorizeRequests()
                // .antMatchers("/").permitAll() // доступность всем
-              //  .antMatchers(HttpMethod.GET, "/privet").access("hasRole('ROLE_USER')")
-                .antMatchers(HttpMethod.GET, "/**").access("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+                .antMatchers(HttpMethod.GET, "/**").access("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+                .antMatchers(HttpMethod.GET, "/admin").access("hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.GET, "/user").access("hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.POST, "/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.DELETE, "/**").access("hasRole('ROLE_ADMIN')")
                 .and().formLogin()  // Spring сам подставит свою логин форму
