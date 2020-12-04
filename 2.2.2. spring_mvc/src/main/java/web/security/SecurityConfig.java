@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import web.dao.UserDao;
 import web.model.Role;
 
@@ -47,13 +48,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          http.csrf().disable();
         http.authorizeRequests()
                // .antMatchers("/").permitAll() // доступность всем
-                .antMatchers(HttpMethod.GET, "/**").access("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+                .antMatchers(HttpMethod.GET, "/").access("hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.GET, "/admin").access("hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.GET, "/user").access("hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.POST, "/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.DELETE, "/**").access("hasRole('ROLE_ADMIN')")
                 .and().formLogin()  // Spring сам подставит свою логин форму
-                .successHandler(successUserHandler); // подключаем наш SuccessHandler для перенеправления по ролям
+                .successHandler(successUserHandler);
+            http.logout(logout -> logout
+                .logoutUrl("/logout")
+                .addLogoutHandler(new SecurityContextLogoutHandler())
+       );
+        // подключаем наш SuccessHandler для перенеправления по ролям
     }
 
     @Bean

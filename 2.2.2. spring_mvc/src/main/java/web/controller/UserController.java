@@ -2,31 +2,19 @@ package web.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import web.model.Role;
 import web.model.User;
-import web.security.UserDetailsServiceImp;
 import web.service.UserService;
 
-import java.security.Principal;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class UserController {
-
-
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public String showUser(ModelMap model,String lastName) throws Exception {
-     //   model.addAttribute("messages", userDetailsService.loadUserByUsername(lastName));
-        return "user";
-    }
-
 
     private int id;
     private ModelMap model;
@@ -104,15 +92,15 @@ public class UserController {
        }
         return  modelAndView;
     }
-    @GetMapping(value = "/admin")
+  @GetMapping(value = "/admin")
     public String showAllUser(ModelMap model) throws Exception {
         model.addAttribute("messages", userService.getAllUsers());
         return "users";
     }
-   @GetMapping(value = "/login")
+    @GetMapping(value = "/user")
     public String seeUser(ModelMap model) throws Exception {
-       User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-           model.addAttribute("messages", user);
+    User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    model.addAttribute("messages", user);
            return "user";
        }
     }

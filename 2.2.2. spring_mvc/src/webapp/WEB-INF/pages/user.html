@@ -8,21 +8,21 @@
 <body>
 <div>
     <table border="4" width="75%">
-        <caption>Пользователь/USER</caption>
+        <caption>Пользователь-USER</caption>
         <tr>
             <td>Id</td>
             <td>Фамилия</td>
             <td>Имя</td>
             <td>Возраст</td>
         </tr>
-        <tr th:each="user : ${messages}">
-            <td th:text="${user.getId()}"></td>
+        <tr   th:each="user : ${messages}">
+           <td th:text="${user.getId()}"></td>
             <td th:text="${user.getLastName()}"></td>
             <td th:text="${user.getName()}"></td>
             <td th:text="${user.getAge()}"></td>
         </tr>
     </table>
-
+    <a href="/logout"/>Logout</a>
 </div>
 </body>
 </html>
