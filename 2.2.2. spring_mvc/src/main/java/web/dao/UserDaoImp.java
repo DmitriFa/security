@@ -31,11 +31,7 @@ public class UserDaoImp implements UserDao {
 
     @Autowired
     public static NoOpPasswordEncoder passwordEncoder;
-
-   // @Autowired
-  //  private Set<Role> editroles;
-
-
+    
     public UserDaoImp() {
     }
 
@@ -44,6 +40,7 @@ public class UserDaoImp implements UserDao {
     public void addUser(User user) throws HibernateException {
       // user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
+      //  user.setRoles(Collections.singleton(new Role(1L, "ROLE_ADMIN")));
         em.persist(user);
     }
 
@@ -80,7 +77,6 @@ public class UserDaoImp implements UserDao {
     @Override
     @Transactional
     public User getUserByName(String lastName){
-       // return (User) em.find(User.class, lastName);
         List<User> users = getAllUsers();
         for (int i = 0; i < users.size(); i++) {
            if(users.get(i).getLastName().equals(lastName)){
@@ -93,11 +89,6 @@ public class UserDaoImp implements UserDao {
     @Override
     @Transactional
     public boolean checkLastName(String lastName) {
-      //  Session session = em.unwrap(Session.class);
-      //  Query query;
-       // query = session.createQuery("from User where lastName = :lastName");
-       // query.setParameter("title", lastName);
-        //return query.list().isEmpty();
         Query query;
         query = (Query) em.createQuery("from User where lastName = :lastName");
         query.setParameter("lastName", lastName);

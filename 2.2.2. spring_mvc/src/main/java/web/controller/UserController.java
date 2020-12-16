@@ -34,7 +34,11 @@ public class UserController {
         model.addAttribute("messages", userService.getAllUsers());
         return "users";
     }
-
+   @GetMapping(value = "/{id}")
+    public String showUser(@PathVariable("id") int id, ModelMap model) throws Exception {
+        model.addAttribute("messages", userService.getUserById(id));
+        return "users";
+    }
 
     @GetMapping(value = "/add")
     public ModelAndView addPage() {
