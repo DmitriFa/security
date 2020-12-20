@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.RoleDao;
 import web.dao.UserDao;
+import web.model.Role;
 import web.model.User;
 
 import java.util.List;
@@ -57,6 +58,11 @@ public class UserServiceImp implements UserService {
     @Transactional
     public boolean checkLastName(String lastName) throws Exception {
         return userDao.checkLastName(lastName);
+    }
+    @Override
+    @Transactional
+    public List<Role>getRolesByUserId(long id)throws Exception{
+        return (List<Role>) userDao.getUserById(id).getRoles();
     }
 
 }

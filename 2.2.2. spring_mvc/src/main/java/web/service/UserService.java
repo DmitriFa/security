@@ -2,6 +2,7 @@ package web.service;
 
 
 
+import web.model.Role;
 import web.model.User;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public interface UserService {
     void updateUser(User user)throws Exception;
     List<User> getAllUsers()throws Exception;
     User getUserById(long id)throws Exception;
+    List<Role>getRolesByUserId(long id)throws Exception;
     boolean checkLastName(String lastName)throws Exception;
 
 }

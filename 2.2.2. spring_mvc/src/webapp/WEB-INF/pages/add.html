@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:form="">
 <html lang="en">
 <head>
     <meta charset="UTF-8"language="java" >
@@ -19,10 +19,47 @@
                 <input name="name" type="text"id="name"required/>
                 <label for="age">Age</label>
                 <input name="age" type="number"id="age"required/>
-                <input type="submit" value="Add User">
-            </tr>
- </form>
-    <a href="/logout"/>Logout</a>
-</div>
-</body>
-</html>
+
+
+           <div>
+                <input type="checkbox" name="adminbox"value="1">
+                <input type="hidden" id ="myCheck"  name="adminbox" value="0">
+                <label>ADMIN</label>
+
+          </div>
+                <script>
+                    function myFunction() {
+                        if (document.getElementById("myCheck").checked) {
+                            document.getElementById("myCheck").value="1";
+                        }
+                        else {
+                            document.getElementById("myCheck").value="0";
+                        }
+                    }
+                </script>
+
+                      <div>
+                          <input type="checkbox" name="userbox"value="1">
+                          <input type="hidden" id ="myCheck1"  name="userbox" value="0">
+                          <label>USER</label>
+                      </div>
+                <script>
+                    function myFunction1() {
+                        if (document.getElementById("myCheck1").checked) {
+                            document.getElementById("myCheck1").value="1";
+                        }
+                        else {
+                            document.getElementById("myCheck1").value="0";
+                        }
+                    }
+                </script>
+
+                   <button  onclick="myFunction1(),myFunction()" id="myBtn">Add User</button>
+
+                <!--<input type="submit" value="Add User" onsubmit="myFunction()">-->
+                  </tr>
+       </form>
+          <a href="/logout"/>Logout</a>
+      </div>
+      </body>
+      </html>

@@ -18,10 +18,7 @@ import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class UserDaoImp implements UserDao {
@@ -38,8 +35,9 @@ public class UserDaoImp implements UserDao {
     @Override
     @Transactional
     public void addUser(User user) throws HibernateException {
+
       // user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
+        //  user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
       //  user.setRoles(Collections.singleton(new Role(1L, "ROLE_ADMIN")));
         em.persist(user);
     }
