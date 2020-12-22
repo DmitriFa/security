@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.RoleDao;
@@ -17,12 +18,15 @@ import java.util.List;
 @Transactional
 public class UserServiceImp implements UserService {
 
-   private UserDao userDao;
+    private UserDao userDao;
+
     @Autowired
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
+
     private RoleDao roleDao;
+
     @Autowired
     public void setRoleDao(RoleDao roleDao) {
         this.roleDao = roleDao;
@@ -42,6 +46,7 @@ public class UserServiceImp implements UserService {
     public void updateUser(User user) throws Exception {
         userDao.updateUser(user);
     }
+
     @Override
     @Transactional(readOnly = true)
     public List<User> getAllUsers() throws Exception {
@@ -51,17 +56,18 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public User getUserById(long id) throws Exception {
-     // return getAllUsers().get(id);
-      return userDao.getUserById(id);
+        return userDao.getUserById(id);
     }
+
     @Override
     @Transactional
     public boolean checkLastName(String lastName) throws Exception {
         return userDao.checkLastName(lastName);
     }
+
     @Override
     @Transactional
-    public List<Role>getRolesByUserId(long id)throws Exception{
+    public List<Role> getRolesByUserId(long id) throws Exception {
         return (List<Role>) userDao.getUserById(id).getRoles();
     }
 

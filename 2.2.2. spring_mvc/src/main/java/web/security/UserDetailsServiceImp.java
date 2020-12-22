@@ -16,14 +16,18 @@ import web.model.User;
 public class UserDetailsServiceImp implements UserDetailsService {
 
     private UserDao userDao;
+
     @Autowired
     public void setUserDao(UserDao userDao) {
 
         this.userDao = userDao;
     }
+
     private RoleDao roleDao;
+
     @Autowired
     public void setRoleDao(RoleDao roleDao) {
+
         this.roleDao = roleDao;
     }
 
@@ -36,6 +40,6 @@ public class UserDetailsServiceImp implements UserDetailsService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-            return user;
+        return user;
     }
 }
