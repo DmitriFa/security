@@ -31,8 +31,6 @@ public class UserController {
     public void setUserService(UserService userService) {
        this.userService = userService;
     }
-  // @Autowired
-   // public static BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping(value = "/")
     public String showAllUsers(ModelMap model) throws Exception {
@@ -63,6 +61,7 @@ public class UserController {
 
    @RequestMapping(value = "/add", method = RequestMethod.POST)
  public ModelAndView addUser(@ModelAttribute("user") User user, @RequestParam("adminbox")String[] adminbox, @RequestParam("userbox")String[] userbox) throws Exception {
+       ModelAndView modelAndView = new ModelAndView();
        if (adminbox[0].equals("1") & userbox[0].equals("0")) {
            user.setRoles(Collections.singleton(new Role(1L, "ROLE_ADMIN")));
        }
@@ -75,10 +74,14 @@ public class UserController {
            roles.add(new Role(2L, "ROLE_USER"));
            user.setRoles(roles);
        }
-           ModelAndView modelAndView = new ModelAndView();
+       if (adminbox[0].equals("0") & userbox[0].equals("0")) {
+           modelAndView.addObject("messages","Choose a role");
+           modelAndView.setViewName("redirect:/");
+           return modelAndView;
+       }
+
            if (userService.checkLastName(user.getLastName())) {
                modelAndView.setViewName("redirect:/");
-             //  user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
                userService.addUser(user);
            } else {
                modelAndView.addObject("messages", "part with lastName \"" + user.getLastName() + "\" already exists");
