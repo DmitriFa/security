@@ -42,12 +42,17 @@ public class UserDaoImp implements UserDao {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getLastName().equals(user.getLastName())) {
                 user.setRoles(users.get(i).getRoles());
+
             }
         }
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        em.merge(user);
+        if (user.getPassword().length() != 60) {
+            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+            em.merge(user);
+        }
+        else {
+            em.merge(user);
+        }
     }
-
     @Override
     @Transactional
     public List<User> getAllUsers() throws HibernateException {
